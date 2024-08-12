@@ -21,6 +21,12 @@ public class Shop {
     public Shop() {
     }
 
+    public Shop(String name) {
+        this.name = name;
+        this.nrOfItems = 0;
+        this.itemList = new ArrayList<>();
+    }
+
     public Shop(long id, String name, int nrOfItems) {
         this.id = id;
         this.name = name;
@@ -58,5 +64,19 @@ public class Shop {
 
     public void setItemList(List<Item> itemList) {
         this.itemList = itemList;
+    }
+
+    public void addItemToShop(Item item) {
+        if (item != null) {
+            this.itemList.add(item);
+            this.nrOfItems += 1;
+        }
+    }
+
+    public void removeItemFromShop(Item item) {
+        if (item != null) {
+            this.itemList.remove(item);
+            this.nrOfItems -= 1;
+        }
     }
 }

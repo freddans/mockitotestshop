@@ -24,6 +24,12 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
+    public Item findItemById(long id) {
+        Optional<Item> optionalItem = itemRepository.findById(id);
+
+        return optionalItem.orElse(null);
+    }
+
     public Item findByName(String name) {
         Item item = itemRepository.findByName(name);
         if (item != null) {
@@ -47,6 +53,36 @@ public class ItemService {
             itemRepository.save(item);
 
             return item;
+        }
+    }
+
+    public Item updateItem(long id, Item newItemInfo) {
+        Item existingItem = findItemById(id);
+
+        if (existingItem == null) {
+            return null;
+        } else {
+            if (newItemInfo.getName() != null && !newItemInfo.getName().isEmpty() && newItemInfo.getName() != existingItem.getName()) {
+                existingItem.setName(newItemInfo.getName());
+            }
+            if (newItemInfo.getCost() != 0 && newItemInfo.getCost() != existingItem.getCost()) {
+                existingItem.setCost(newItemInfo.getCost());
+            }
+
+            itemRepository.save(existingItem);
+
+            return existingItem;
+        }
+    }
+
+    public String deleteItem(long id) {
+        Item itemToDelete = findItemById(id);
+
+        if (itemToDelete != null) {
+            return "ERROR: Item could not be found with id: " + id + ".";
+        } else {
+            itemRepository.delete(itemToDelete);
+            return "Item deleted";
         }
     }
 }
